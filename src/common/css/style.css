@@ -1,0 +1,28 @@
+html,
+body,
+#app{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    min-width: 1000px;
+}
+.el-breadcrumb{
+    margin-bottom: 25px;
+}
+.el-pagination{
+    margin-top: 20px;
+}
+ .el-main{
+	  position: relative;
+	  overflow: hidden;
+  }
+  .el-step{
+    margin: 15px 0;
+  }
+  .ql-editor{
+    min-height: 300px;
+  }
+  a{
+    text-decoration: none;
+    color: #fff;
+  }
