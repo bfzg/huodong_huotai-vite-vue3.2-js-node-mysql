@@ -37,9 +37,7 @@ import { postUserLogin } from '@/request/login/login.js'
 import userStore from '../store/user';
 //router
 import { useRouter } from 'vue-router';
-//动态路由
-import dynamicRouter from '@/router/dynamicRoute.js'
-import menus from "../config/menus";
+
 
 let router = useRouter();
 const user_store = userStore();
@@ -58,15 +56,6 @@ const postUserInfo = async function () {
     } else {
         console.log(res);
         user_store.getUserInfoAndToken(res.res_userInfo);
-        res.res_userInfo.view_list.forEach((item)=>{
-            dynamicRouter.forEach((j)=>{
-                if(item == j.name){
-                    router.addRoute("home",j);
-                }
-            })
-        })
-        let motion_router = router.getRoutes()
-        user_store.saveMotionRouter(motion_router);
         router.push('/home');
         return ElMessage.success('登录成功!');
     }

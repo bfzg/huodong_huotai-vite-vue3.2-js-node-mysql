@@ -1,32 +1,29 @@
-import http from "../index";
+import http from '../index';
 
-//获取数据列表
-export function getIndividualList(data){
+export function getSchoolData (data){
     return http({
-        method:'get',
-        url:'/api/individual/getList',
+        method:"get",
+        url:"/api/school/getEventsList",
         params:{
-            data
+           data
         }
     })
 }
 
-//删除活动
 export function removeEvents(id){
     return http({
         method:'delete',
-        url:'/api/individual/deleteEvents',
+        url:'/api/school/deleteEvents',
         data:{
             id:id
         }
     })
 }
 
-//修改活动
 export function editEvents(data){
     return http({
         method:'put',
-        url:'/api/individual/editEvents',
+        url:'/api/school/editEvents',
         data:{
             data
         }

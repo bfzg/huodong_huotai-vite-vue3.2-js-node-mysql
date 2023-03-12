@@ -58,7 +58,7 @@
 </template>
 
 <script setup>
-import { Search, Delete, Edit } from '@element-plus/icons-vue';
+import { Search} from '@element-plus/icons-vue';
 import { ref, onMounted, reactive } from 'vue';
 //api
 import { getUserList, removeUser,editUserInfo} from "@/request/userManage/users.js";

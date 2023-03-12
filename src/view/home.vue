@@ -15,9 +15,10 @@
                 <el-menu class="el-menu-vertical-demo" default-active="2" background-color="#333744" text-color="#fff"
                     active-text-color="#409bff" @open="handleOpen" @close="handleClose">
                     <!-- 一级菜单 -->
-                    <el-menu-item @click="saveNavState(item.path)" :index="item.path" v-for="(item,index) in newMenus" :key="index">
+                    <el-menu-item @click="saveNavState(item.path)" :index="item.path" v-for="(item, index) in newMenus"
+                        :key="index">
                         <i class="iconfont icon-yonghuguanli_huaban"></i>
-                        <span>{{item.name}}</span>
+                        <span>{{ item.name }}</span>
                     </el-menu-item>
                 </el-menu>
             </el-aside>
@@ -31,16 +32,30 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-import { ref, onMounted,watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 //pinia
 import userStore from "../store/user";
+//动态路由
 import menus from "../config/menus";
+import dynamicRouter from '@/router/dynamicRoute.js'
 
+let user_store = userStore();
 const router = useRouter();
+
+/** 生成动态路由 */
+user_store.view_list.forEach((item) => {
+    dynamicRouter.forEach((j) => {
+        if (item == j.name) {
+            router.addRoute("home", j);
+        }
+    })
+})
+let motion_router = router.getRoutes()
+user_store.saveMotionRouter(motion_router);
 
 /** 生成菜单 */
 let newMenus = ref([]);
-let user_store = userStore();
+
 
 onMounted(() => {
     const menuKeys = user_store.view_list;
@@ -52,8 +67,8 @@ onMounted(() => {
 })
 
 /** 点击菜单 */
-const saveNavState = function(path){
-    window.sessionStorage.setItem("activePath",path)
+const saveNavState = function (path) {
+    window.sessionStorage.setItem("activePath", path)
     router.push(path);
 }
 
@@ -96,7 +111,8 @@ const logout = function () {
         }
     }
 }
-.el-menu{
+
+.el-menu {
     height: 100%;
 }
 </style>

@@ -8,5 +8,6 @@ const individual_handler = require('../router_handler/individual');
 router.get('/individual/getList',individual_handler.getIndividualList);
 //删除数据
 router.delete('/individual/deleteEvents',individual_handler.removeEvents);
-
+//编辑数据
+router.put('/individual/editEvents',individual_handler.editEvents);
 module.exports=router;

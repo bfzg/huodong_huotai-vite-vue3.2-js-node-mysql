@@ -1,14 +1,14 @@
 const mysql = require('../db/mysql');
 
 //获取数据
-exports.getIndividualList = (req, res) => {
+exports.getSchoolList= (req,res)=>{
     let requestParams = req.query.data;
+    console.log(requestParams);
     let pageNum = (requestParams.pageNum - 1) * 5;
     let pageSize = Number(requestParams.pageSize);
-    let query = '%'+requestParams.query+'%'
-
+    let query = '%'+requestParams.query+'%';
     let connection = mysql.createConnection();
-    let sql2 = 'select count(1) from all_events where type="personal"';
+    let sql2 = 'select count(1) from all_events where type="school"';
     
     let total;
     connection.query(sql2,(err,results)=>{
@@ -17,10 +17,9 @@ exports.getIndividualList = (req, res) => {
         total = i.substr(0,i.length-1);
     })
 
-       let sql='select id,eventsname,uname,email,address,starttime,shuttime,file from all_events where type="personal" and eventsname like ? limit ?,?';
+        let sql='select id,eventsname,uname,email,address,starttime,shuttime,file from all_events where type="school" and eventsname like ? limit ?,?';
         connection.query(sql,[query,pageNum,pageSize],(err, results) => {
             if (err) return console.log(err);
-            console.log(11111);
                 res.send({ status: 200, data: results ,total:total});
         })
         connection.end();
@@ -28,7 +27,6 @@ exports.getIndividualList = (req, res) => {
 
 //删除数据
 exports.removeEvents = (req, res) => {
-    console.log(req.body.id);
     let id = req.body.id;
     let connection = mysql.createConnection();
     let sql = 'delete from all_events where id=?';
@@ -40,7 +38,6 @@ exports.removeEvents = (req, res) => {
     })
     connection.end();
 }
-
 
 //修改数据
 exports.editEvents = (req,res)=>{

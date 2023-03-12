@@ -66,11 +66,12 @@ router.beforeEach((to, from, next) => {
     }
     //获取token
     const tokenStr = JSON.parse(window.sessionStorage.getItem('token'));
-    if (!tokenStr) return next('/login');
+    if (!tokenStr.token) return next('/login');
     next();
 })
 
 //TODO 难点动态路由刷新后会丢失 2023-3-11 没解决
+//TODO 动态路由刷新丢失问题 2023-3-12 解决方案 每次刷新都跳转到home页
 
 
 export default router
