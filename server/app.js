@@ -10,6 +10,8 @@ var user = require('./routes/user')
 var usersManage = require('./routes/userManage');
 var individual = require('./routes/indiviidual');
 var school = require('./routes/school');
+var comments = require('./routes/comments');
+
 //token
 var auto = require("./schema/token/authorization");
 
@@ -44,10 +46,13 @@ app.use(user);
 // app.use(auto.verifyToken);  //验证token
 //用户管理模块
 app.use('/api',usersManage);
-//个人活动管理模块
+//个人活动管理模块p
 app.use('/api',individual);
 //学校活动管理模块
 app.use('/api',school);
+//评论管理模块
+app.use('/api',comments);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

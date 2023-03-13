@@ -98,7 +98,7 @@ const logout = function () {
         align-items: center;
 
         .el-button {
-            position: fixed;
+            position: absolute;
             right: 20px;
         }
 

@@ -15,9 +15,9 @@ service.interceptors.request.use((config) => {
         config.headers.Authorization = userToken.token;
         return config;
     }  
+    
 });
-
 //配置相应拦截器
-
+//TODO 每次请求时显示加载动画
 
 export default service;
