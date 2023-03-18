@@ -2,7 +2,6 @@ const mysql = require('../db/mysql')
 
 //获取数据
 exports.getDataList = (req,res)=>{
-    console.log(req.query);
     let requestParams = req.query.data;
     let pageNum = (requestParams.pageNum - 1) * 5;
     let pageSize = Number(requestParams.pageSize);
@@ -11,6 +10,7 @@ exports.getDataList = (req,res)=>{
     let sql = 'select * from dynamic where uname like ? limit ?,?'
     let sql2 = 'select count(1) from dynamic'
     let total;
+    connection.connect();
     connection.query(sql2,(err,results)=>{
         if(err) return console.log(err);
         let i = JSON.stringify(results[0]).slice(12);
@@ -45,6 +45,7 @@ exports.removeComment = (req,res)=>{
     let removeData = req.body.data.substr(0, req.body.data.length - 1); //去除最后一个逗号
     let connection = mysql.createConnection();
     let sql = `DELETE FROM dynamic WHERE id in (${removeData})`;
+    connection.connect();
     connection.query(sql,(err,results)=>{
         if(err) return console.log(err);
         res.send({status:200,message:'删除成功!'});

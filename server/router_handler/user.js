@@ -9,6 +9,7 @@ exports.login = (req,res)=>{
     const userinfo = req.body;
     let sql = 'select * from admin_grade where name=? and password=?';
     let connection = mysql.createConnection();
+    connection.connect();
     connection.query(sql,[userinfo.username,userinfo.password],(err,results)=>{
         if(err) return console.log(err);
         if(results != ''){

@@ -37,11 +37,11 @@
 
     <!-- 编辑用户对话框 -->
     <el-dialog v-model="dialogVisible" title="编辑用户" width="40%" :before-close="handleClose" :show-close="false">
-      <el-form :model="newUserInfo" label-width="100px"  label-position="left">
-        <el-form-item label="用户名">
+      <el-form ref="formTable" :rules="rules" :model="newUserInfo" label-width="100px" label-position="left">
+        <el-form-item label="用户名" prop="uname">
           <el-input v-model="newUserInfo.uname" />
         </el-form-item>
-        <el-form-item label="邮箱">
+        <el-form-item label="邮箱" prop="uemail">
           <el-input v-model="newUserInfo.uemail" />
         </el-form-item>
       </el-form>
@@ -58,10 +58,10 @@
 </template>
 
 <script setup>
-import { Search} from '@element-plus/icons-vue';
+import { Search } from '@element-plus/icons-vue';
 import { ref, onMounted, reactive } from 'vue';
 //api
-import { getUserList, removeUser,editUserInfo} from "@/request/userManage/users.js";
+import { getUserList, removeUser, editUserInfo } from "@/request/userManage/users.js";
 
 let dataList = ref([]);
 
@@ -80,6 +80,17 @@ let queryParams = reactive({
 let totals = ref(0);
 //控制编辑对话框的显示与隐藏
 let dialogVisible = ref(false);
+//表单实例
+let formTable = ref(null);
+//表单验证
+const rules = reactive({
+  uname: [
+    { required: true, message: '请输入活动名称', trigger: 'blur' },
+  ],
+  uemail: [
+    { required: true, message: '请输入邮箱', trigger: 'blur' },
+  ],
+})
 
 onMounted(() => {
   getUserListApi();  //获取数据
@@ -117,33 +128,41 @@ const handleDelete = async function (uid) {
 let uid = ref('');
 const handleEdit = function (data) {
   dialogVisible.value = true;
-  newUserInfo.uname=data.uname;
-  newUserInfo.uemail=data.uemail;
+  newUserInfo.uname = data.uname;
+  newUserInfo.uemail = data.uemail;
   uid.value = data.uid;
 }
 
 
 /** 编辑用户对话框 */
 let newUserInfo = reactive({
-  uname:'',
-  uemail:''
+  uname: '',
+  uemail: ''
 });
 
 //对话框 确定按钮 提交新的用户信息
-const pushNewUserInfo = async function(){
-  let {data:res} = await editUserInfo(newUserInfo,uid.value);
-  if(res.status == 200){
-    ElMessage.success(res.message);
-    getUserListApi();
-    dialogVisible.value=false;
-    return;
-  }
+const pushNewUserInfo = async function () {
+  await formTable.value.validate(async (valid, fields) => {
+    if (valid) {
+      let { data: res } = await editUserInfo(newUserInfo, uid.value);
+      if (res.status == 200) {
+        ElMessage.success(res.message);
+        getUserListApi();
+        dialogVisible.value = false;
+        return;
+      }
+    } else {
+      ElMessage.error('请补全表单!');
+    }
+  })
+
+
 }
 
 //对话框关闭之前的钩子
-const handleClose = function(){
-  newUserInfo.uname='';
-  newUserInfo.uemail='';
+const handleClose = function () {
+  newUserInfo.uname = '';
+  newUserInfo.uemail = '';
 }
 
 </script>

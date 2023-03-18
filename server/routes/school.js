@@ -4,6 +4,8 @@ const router = express.Router();
 //处理模块
 const school_handler = require('../router_handler/school');
 
+
+
 //获取数据
 router.get('/school/getEventsList',school_handler.getSchoolList);
 //删除数据
